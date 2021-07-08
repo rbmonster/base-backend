@@ -12,7 +12,7 @@ spring:
     encoding: UTF-8
   datasource:
     druid:
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
       filters: stat
       testOnReturn: false
       testWhileIdle: true
@@ -41,3 +41,11 @@ jwt:
   secret: base2018cotyso
 app:
   name: base
+
+standard:
+  permitAllList:
+    - "/api/v1/upload/**"
+    - "/api/v1/admin/login/**"
+logging:
+  level:
+    root: trace
