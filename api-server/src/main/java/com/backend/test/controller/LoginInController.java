@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginInController {
     @Autowired
     private JwtTokenHelper jwtTokenHelper;
-
-    @GetMapping("/login")
-    public String loginIn(@RequestParam("username") String username, @RequestParam("password") String password) {
-        return jwtTokenHelper.generateToken(username);
-    }
+//
+//    @GetMapping("/login")
+//    public String loginIn(@RequestParam("username") String username, @RequestParam("password") String password) {
+//        return jwtTokenHelper.generateToken(username);
+//    }
 }

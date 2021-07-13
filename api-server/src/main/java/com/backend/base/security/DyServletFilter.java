@@ -2,10 +2,12 @@ package com.backend.base.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
+import java.security.SecureRandom;
 
 /**
  * <pre>
@@ -39,5 +41,13 @@ public class DyServletFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    public static void main(String[] args) {
+        SecureRandom  secureRandom = new SecureRandom();
+        byte[] server_salt = new byte[36];
+        secureRandom.nextBytes(server_salt);
+
+        System.out.println(new String(server_salt));
     }
 }

@@ -18,12 +18,12 @@ import java.util.Collection;
  * @Author: sanwu
  * @Date: 2021/7/9 0:43
  */
-public class StandardAuthentication extends AbstractAuthenticationToken {
+public class JwtAuthentication extends AbstractAuthenticationToken {
 
     private String token;
     private UserDetails principle;
 
-    public StandardAuthentication( String token, Collection<PermissionGrantedAuthority> authorities) {
+    public JwtAuthentication(String token, Collection<PermissionGrantedAuthority> authorities) {
         super(authorities);
         this.token = token;
     }

@@ -18,23 +18,23 @@ import org.springframework.stereotype.Component;
  * @Date: 2021/7/9 0:49
  */
 @Component
-public class StandardAuthenticationProvider implements AuthenticationProvider {
+public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private JwtTokenHelper jwtTokenHelper;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        StandardAuthentication standardAuthentication = (StandardAuthentication)authentication;
-        String token = standardAuthentication.getToken();
+        JwtAuthentication jwtAuthentication = (JwtAuthentication)authentication;
+        String token = jwtAuthentication.getToken();
         String userInfoFromToken = jwtTokenHelper.getUserInfoFromToken(token);
         // do some validation logic
-        standardAuthentication.setAuthenticated(true);
-        return standardAuthentication;
+        jwtAuthentication.setAuthenticated(true);
+        return jwtAuthentication;
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.isAssignableFrom(StandardAuthentication.class);
+        return authentication.isAssignableFrom(JwtAuthentication.class);
     }
 }

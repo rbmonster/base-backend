@@ -57,9 +57,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             urlRegistry = urlRegistry.antMatchers(entry.getKey()).hasAnyAuthority(entry.getValue());
         }
 
-        http.authorizeRequests()
-            .anyRequest().authenticated().and()
-            .addFilterBefore(tokenAuthenticationFilter, BasicAuthenticationFilter.class);
+//        http.authorizeRequests()
+//            .anyRequest().authenticated().and()
+//            .addFilterBefore(tokenAuthenticationFilter, BasicAuthenticationFilter.class);
 
         http.csrf().disable();
     }
