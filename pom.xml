@@ -13,8 +13,8 @@
 		<version>2.3.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.backend</groupId>
-	<artifactId>base</artifactId>
+	<groupId>com.sanwu</groupId>
+	<artifactId>sw</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>base-backend</name>
 	<description>Demo project for Spring Boot</description>

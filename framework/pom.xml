@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.backend</groupId>
-        <artifactId>base</artifactId>
+        <groupId>com.sanwu</groupId>
+        <artifactId>sw</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,7 @@
     <modules>
         <module>spring-boot-starter-swagger</module>
         <module>liquibase</module>
-        <module>base-spring-security</module>
+        <module>sw-spring-security</module>
     </modules>
     <artifactId>framework</artifactId>
 
