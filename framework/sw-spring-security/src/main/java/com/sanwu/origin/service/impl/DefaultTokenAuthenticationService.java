@@ -1,11 +1,16 @@
 package com.sanwu.origin.service.impl;
 
 import com.sanwu.origin.model.BaseTokenAuthentication;
+import com.sanwu.origin.model.PermissionGrantedAuthority;
 import com.sanwu.origin.service.ITokenAuthenticationService;
 import com.sanwu.origin.service.helper.JwtTokenHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <pre>
@@ -34,8 +39,14 @@ public class DefaultTokenAuthenticationService implements ITokenAuthenticationSe
         String token = baseTokenAuthentication.getToken();
         String userInfoFromToken = jwtTokenHelper.getUserInfoFromToken(token);
         log.info("authenticate success userInfo:{}", userInfoFromToken);
-        baseTokenAuthentication.setAuthenticated(true);
-        return baseTokenAuthentication;
+        BaseTokenAuthentication authentication = new BaseTokenAuthentication(token, createRole());
+        authentication.setAuthenticated(true);
+        return authentication;
+    }
+
+
+    private List<? extends GrantedAuthority> createRole() {
+        return Arrays.asList(new PermissionGrantedAuthority("ROLE_ADMIN"));
     }
 
 

@@ -8,9 +8,12 @@ import com.sanwu.origin.handler.BaseAuthenticationEntryPoint;
 import com.sanwu.origin.authentication.provider.TokenAuthenticationProvider;
 import com.sanwu.origin.authentication.handler.SignInAuthenticationSuccessHandler;
 import com.sanwu.origin.authentication.filter.SignInAuthenticationFilter;
+import com.sanwu.origin.model.UrlPermissionModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +25,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -47,9 +49,6 @@ public class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PermissionProperty permissionProperty;
-
-    @Autowired
-    private BaseSecurityProperty basicSecurityProperty;
 
     @Autowired
     private TokenAuthenticationProvider tokenAuthenticationProvider;
@@ -84,14 +83,12 @@ public class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(signInAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(baseTokenAuthenticationFilter(), BasicAuthenticationFilter.class);
         http.csrf().disable();
-//        http.exceptionHandling().defaultAuthenticationEntryPointFor()
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests();
-        Map<String, String> resourcePermissions = new HashMap<>();
-        for (Map.Entry<String, String> entry : resourcePermissions.entrySet()) {
-            urlRegistry = urlRegistry.antMatchers(entry.getKey()).hasAnyAuthority(entry.getValue());
-        }
-        urlRegistry.antMatchers("/api/v1/resource").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().anyRequest().denyAll();
+        http.authorizeRequests(authorize -> {
+            permissionProperty.getPermissionList().forEach(model -> {
+                authorize.mvcMatchers(model.getUrl()).hasAnyRole(model.getRole());
+            });
+            authorize.anyRequest().denyAll();
+        });
 
         http.cors().configurationSource(corsConfigurationSource())
                 .and().headers().frameOptions().deny().contentTypeOptions()
@@ -100,7 +97,18 @@ public class BaseWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().httpStrictTransportSecurity();
     }
 
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER > ROLE_VISITOR ");
+        return roleHierarchy;
+    }
 
+    /**
+     * 在authentication中添加自定义的Provider
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(tokenAuthenticationProvider);

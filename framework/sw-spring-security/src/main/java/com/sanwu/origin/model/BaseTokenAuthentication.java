@@ -1,9 +1,12 @@
 package com.sanwu.origin.model;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * <pre>
@@ -23,6 +26,12 @@ public class BaseTokenAuthentication extends AbstractAuthenticationToken {
 
     public BaseTokenAuthentication(String token) {
         super(null);
+        this.token = token;
+        this.setAuthenticated(false);
+    }
+
+    public BaseTokenAuthentication(String token, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
         this.token = token;
         this.setAuthenticated(false);
     }

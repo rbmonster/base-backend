@@ -47,6 +47,12 @@ base:
     - "/login"
     - "/api/v1/upload/**"
     - "/api/v1/admin/login/**"
+  permissionList:
+    - url: "/resource"
+      role: "USER"
+    - url: "/resource/ad"
+      role: "ADMIN"
+
 logging:
   level:
     root: trace
