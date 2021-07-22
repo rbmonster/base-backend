@@ -1,4 +1,10 @@
 spring:
   data:
     mongodb:
-      authentication-database:
+      authentication-database: learning
+      database: learning
+      username: 'sanwu'
+      password: '123123'
+      port: 27017
+      host: '121.5.73.118'
+#      uri: 'mongodb://121.5.73.118:27017/learning'
