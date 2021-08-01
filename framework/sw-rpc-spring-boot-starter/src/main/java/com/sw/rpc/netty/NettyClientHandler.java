@@ -23,12 +23,12 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Autowired
     NettyClient client;
 
-//    @Autowired
-//    ConnectManage connectManage;
+    private ChannelHandlerContext ctx;;
 
     private ConcurrentHashMap<String, SynchronousQueue<Object>> queueMap = new ConcurrentHashMap<>();
 
     public void channelActive(ChannelHandlerContext ctx) {
+        this.ctx = ctx;
         log.info("已连接到RPC服务器.{}",ctx.channel().remoteAddress());
     }
 
@@ -36,7 +36,6 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress address =(InetSocketAddress) ctx.channel().remoteAddress();
         log.info("与RPC服务器断开连接."+address);
         ctx.channel().close();
-//        connectManage.removeChannel(ctx.channel());
     }
 
     /**
@@ -45,6 +44,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      * @param msg
      * @throws Exception
      */
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)throws Exception {
         SwRpcResponse response = JSON.parseObject(msg.toString(),SwRpcResponse.class);
         String requestId = response.getRequestId();
@@ -56,7 +56,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     public SynchronousQueue<Object> sendRequest(SwRpcRequest request, Channel channel) {
         SynchronousQueue<Object> queue = new SynchronousQueue<>();
         queueMap.put(request.getId(), queue);
-        channel.writeAndFlush(request);
+        ctx.writeAndFlush(JSON.toJSONString(request));
         return queue;
     }
 

@@ -30,10 +30,6 @@ public class ZookeeperRegister implements Register {
 
     @Override
     public void register(ServiceMateData serviceMateData) {
-        String versionPath = zookeeperHelper.getServicePath()+ zookeeperHelper.getServicePathDelimiter() + serviceMateData.getVersion();
-        if (!zkClient.exists(versionPath)) {
-            zkClient.createPersistent(versionPath);
-        }
         zookeeperHelper.enrichMateData(serviceMateData);
         String nodePath = zookeeperHelper.getPath(serviceMateData);
         if (zkClient.exists(nodePath)){

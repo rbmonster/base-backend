@@ -1,6 +1,7 @@
 package com.sw.service2.controller;
 
 import com.sw.api.IHelloWorld;
+import com.sw.api.model.Person;
 import com.sw.rpc.annotation.SwRpcConsumer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,8 @@ public class TestController {
 
     @GetMapping()
     public String get() {
-        return helloWorld.findPersonByName("name").toString();
+        Person name = helloWorld.findPersonByName("name");
+        return name.getName();
     }
 
 }

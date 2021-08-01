@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ConsumerProxy {
 
-    public static Object createProxy(SwRpcConsumer swRpcConsumer, Class<?> target, NettyClient nettyClient) {
-        return Proxy.newProxyInstance(
+    public static <T> T createProxy(SwRpcConsumer swRpcConsumer, Class<T> target, NettyClient nettyClient) {
+        return (T)Proxy.newProxyInstance(
                 target.getClassLoader(),
                 target.getInterfaces(),
                 (proxy, method, args) -> {

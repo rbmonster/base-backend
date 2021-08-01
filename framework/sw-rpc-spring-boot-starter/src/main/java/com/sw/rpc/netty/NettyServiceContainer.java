@@ -23,10 +23,10 @@ public class NettyServiceContainer {
 
     private static final EventLoopGroup workerGroup = new NioEventLoopGroup(4);
 
-    @Value("${netty.host}")
+    @Value("${sw.netty.host}")
     private String host;
 
-    @Value("${netty.port}")
+    @Value("${sw.netty.port}")
     private int port;
 
 
