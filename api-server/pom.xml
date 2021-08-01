@@ -53,6 +53,10 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.sanwu</groupId>
+            <artifactId>sw-rpc-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

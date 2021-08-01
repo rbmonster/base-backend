@@ -1,0 +1,14 @@
+sw:
+  zookeeper:
+    url: 121.5.73.118:2181
+
+netty:
+  host: 192.168.43.117
+  port: 1112
+
+
+spring:
+  application:
+    name: default
+server:
+  port: 8800

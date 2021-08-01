@@ -9,16 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <artifactId>framework</artifactId>
+    <artifactId>rpc-test</artifactId>
 
     <modules>
-        <module>spring-boot-starter-swagger</module>
-        <module>liquibase</module>
-        <module>sw-spring-security</module>
-        <module>sw-spring-data-mongodb</module>
-        <module>sw-spring-data-elasticsearch</module>
-        <module>sw-rpc-spring-boot-starter</module>
+        <module>rpc-service1</module>
+        <module>rpc-service2</module>
+        <module>rpc-interface</module>
     </modules>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
 </project>

@@ -1,0 +1,14 @@
+
+sw:
+  zookeeper:
+    url: 121.5.73.118:2181
+
+netty:
+  host: 192.168.43.117
+  port: 1113
+
+spring:
+  application:
+    name: service2
+server:
+  port: 8802
