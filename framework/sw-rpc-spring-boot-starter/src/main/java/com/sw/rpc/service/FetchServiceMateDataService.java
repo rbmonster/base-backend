@@ -9,8 +9,12 @@ import org.I0Itec.zkclient.ZkClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,21 +36,26 @@ public class FetchServiceMateDataService {
         String servicePath = zookeeperHelper.getServicePath();
         String delimiter = zookeeperHelper.getServicePathDelimiter();
         List<ServiceMateData> serviceMateDataList = new LinkedList<>();
-        children.stream().filter(path -> !path.startsWith(servicePath)).forEach(path -> {
-            String actualPath = path.replaceFirst(servicePath+delimiter, "");
-            String[] split = actualPath.split(delimiter);
-            if (split.length !=2 ){
-                log.warn("zookeeper path may be error, path: {}", path);
-            } else {
-                Object obj = zkClient.readData(path);
-                log.info("fetch zookeeper path:{}, data:{}", path, obj);
-                if (obj instanceof ServiceMateData) {
-                    ServiceMateData serviceMateData = (ServiceMateData) obj;
-                    ServiceMateDataCache.put(split[1], serviceMateData);
-                    serviceMateDataList.add(serviceMateData);
-                }
-            }
-        });
+        children.stream().filter(path -> !path.startsWith(servicePath))
+                .forEach(path -> {
+                    List<String> childrenList = zkClient.getChildren(zookeeperHelper.convertPath(rootPath, path));
+                    childrenList.forEach(childrenPath -> {
+                        String[] split = childrenPath.split("-");
+                        if (split.length !=2 ){
+                            log.warn("zookeeper path may be error, path: {}", path);
+                        } else {
+                            Object obj = zkClient.readData(zookeeperHelper.convertPath(rootPath, path, childrenPath));
+                            log.info("fetch zookeeper path:{}, data:{}", path, obj);
+                            if (obj instanceof ServiceMateData) {
+                                ServiceMateData serviceMateData = (ServiceMateData) obj;
+                                ServiceMateDataCache.put(split[1], serviceMateData);
+                                serviceMateDataList.add(serviceMateData);
+                            }
+                        }
+                    });
+
+                 });
+        initChannel(serviceMateDataList);
     }
 
     private void initChannel(List<ServiceMateData> serviceMateDataList) {

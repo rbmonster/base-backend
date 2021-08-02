@@ -33,8 +33,6 @@ public class NettyClient {
     @Autowired
     NettyClientHandler clientHandler;
 
-//    @Autowired
-//    ConnectManage connectManage;
 
 
     public NettyClient(){
@@ -62,7 +60,7 @@ public class NettyClient {
 
     public Object send(SwRpcRequest request) throws InterruptedException{
 
-        Optional<ServiceMateData> optional = ServiceMateDataCache.get(request.getClazz().getName());
+        Optional<ServiceMateData> optional = ServiceMateDataCache.get(request.getClazz().getSimpleName());
         if (!optional.isPresent()) {
             return createFailedResponse();
         }

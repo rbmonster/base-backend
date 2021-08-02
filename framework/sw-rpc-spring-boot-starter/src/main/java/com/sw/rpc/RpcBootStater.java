@@ -2,6 +2,7 @@ package com.sw.rpc;
 
 import com.sw.rpc.annotation.SwRpcConsumer;
 import com.sw.rpc.annotation.SwRpcProvider;
+import com.sw.rpc.cache.RpcProviderCache;
 import com.sw.rpc.domain.ServiceMateData;
 import com.sw.rpc.netty.NettyServiceContainer;
 import com.sw.rpc.register.Register;
@@ -50,6 +51,7 @@ public class RpcBootStater implements ApplicationListener<ContextRefreshedEvent>
                 if (annotation.interfaceClass() == void.class) {
                     serviceMateData.setClassName(clazz.getSimpleName());
                 }
+                RpcProviderCache.put(annotation.interfaceClass(), obj);
                 register.register(serviceMateData);
             }
         }
