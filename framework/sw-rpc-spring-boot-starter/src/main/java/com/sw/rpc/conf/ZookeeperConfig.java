@@ -14,7 +14,7 @@ public class ZookeeperConfig {
 
     @Bean
     public ZkClient zkClient() {
-        return new ZkClient(url,2000);
+        return new ZkClient(url,10000);
     }
 
 }
