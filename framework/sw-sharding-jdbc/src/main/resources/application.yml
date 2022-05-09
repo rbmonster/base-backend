@@ -1,0 +1,82 @@
+
+server:
+  port: 8086
+  servlet:
+    context-path: /sharding
+
+#logging:
+#  level:
+#    root: debug
+
+spring:
+  application:
+    name:  sharding
+  main:
+    allow-bean-definition-overriding: true
+  messages:
+    basename: messages,messages_sys,messages_mst
+    encoding: UTF-8
+  shardingsphere:
+    props:
+      sql:
+        show: true
+    datasource:
+      names: ds0
+      ds0:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://121.5.73.118:3306/atta-booking?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+        username: test
+        password: 'test123'
+        maxPoolSize: 100
+        minPoolSize: 5
+    sharding:
+      default-data-source-name: ds0
+      tables:
+        notification_event:
+          colum: id
+          actual-data-nodes: ds0.notification_event$->{0..1}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: notification_event$->{id % 2}
+      #      binding-tables: notifaction_event
+
+      #      default-database-strategy:
+      #        inline:
+      #          algorithm-expression: ds$->{id % 4}
+      #          sharding-column: id
+      #      broadcast-tables: t_config
+#          databaseStrategy: # 分库策略，缺省表示使用默认分库策略，以下的分片策略只能选其一
+#            standard: # 用于单分片键的标准分片场景
+#              shardingColumn: created_time  # 分片列名称
+#              shardingAlgorithmName: # 分片算法名称
+#          keyGenerateStrategy: # 分布式序列策略
+#            column: # 自增列名称，缺省表示不使用自增主键生成器
+#            keyGeneratorName: # 分布式序列算法名称
+
+#  datasource:
+#    druid:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      filters: stat
+#      testOnReturn: false
+#      testWhileIdle: true
+#      maxActive: 1
+#      removeAbandoned: true
+#      removeAbandonedTimeoutMillis: 1
+#      name: datasource
+#      testOnBorrow: false
+#      minIdle: 1
+#      initialSize: 1
+#      poolPreparedStatements: true
+#      url: jdbc:mysql://121.5.73.118:3306/tms?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+#      type: com.alibaba.druid.pool.DruidDataSource
+#      validationQuery: select 1
+#      maxOpenPreparedStatements: 300
+#      username: root
+#      password: 'HMysql=123123='
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

@@ -7,6 +7,8 @@
 		<module>api-server</module>
 		<module>framework</module>
 		<module>rpc-test</module>
+		<module>demo</module>
+        <module>ddd</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -97,11 +99,11 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
+<!--		<repository>-->
+<!--			<id>spring-milestones</id>-->
+<!--			<name>Spring Milestones</name>-->
+<!--			<url>https://repo.spring.io/milestone</url>-->
+<!--		</repository>-->
 	</repositories>
 
 </project>

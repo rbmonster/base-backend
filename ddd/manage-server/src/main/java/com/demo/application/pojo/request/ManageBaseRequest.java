@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class ManageBaseRequest {
 
-
     private String manageId;
 }

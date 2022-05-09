@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sw.shardingjdbc.dao.NotificationEventDao">
+  <resultMap id="BaseResultMap" type="com.sw.shardingjdbc.model.NotificationEvent">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="EVENT_ID" jdbcType="VARCHAR" property="eventId" />
+    <result column="GLOBAL_ID" jdbcType="VARCHAR" property="globalId" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="EVENT_TYPE" jdbcType="VARCHAR" property="eventType" />
+    <result column="EVENT_TOPIC" jdbcType="VARCHAR" property="eventTopic" />
+    <result column="TAGS" jdbcType="VARCHAR" property="tags" />
+    <result column="NOTIFICATION_BODY" jdbcType="VARCHAR" property="notificationBody" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="MODIFIED_TIME" jdbcType="TIMESTAMP" property="modifiedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EVENT_ID, GLOBAL_ID, VERSION, `STATUS`, EVENT_TYPE, EVENT_TOPIC, TAGS, NOTIFICATION_BODY, 
+    CREATED_TIME, MODIFIED_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from notification_event
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notification_event
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.sw.shardingjdbc.model.NotificationEvent" useGeneratedKeys="true">
+    insert into notification_event (EVENT_ID, GLOBAL_ID, VERSION, 
+      `STATUS`, EVENT_TYPE, EVENT_TOPIC, 
+      TAGS, NOTIFICATION_BODY, CREATED_TIME, 
+      MODIFIED_TIME)
+    values (#{eventId,jdbcType=VARCHAR}, #{globalId,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{eventType,jdbcType=VARCHAR}, #{eventTopic,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{notificationBody,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.sw.shardingjdbc.model.NotificationEvent" useGeneratedKeys="true">
+    insert into notification_event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        EVENT_ID,
+      </if>
+      <if test="globalId != null">
+        GLOBAL_ID,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="eventType != null">
+        EVENT_TYPE,
+      </if>
+      <if test="eventTopic != null">
+        EVENT_TOPIC,
+      </if>
+      <if test="tags != null">
+        TAGS,
+      </if>
+      <if test="notificationBody != null">
+        NOTIFICATION_BODY,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+      <if test="modifiedTime != null">
+        MODIFIED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="globalId != null">
+        #{globalId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        #{eventType,jdbcType=VARCHAR},
+      </if>
+      <if test="eventTopic != null">
+        #{eventTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationBody != null">
+        #{notificationBody,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sw.shardingjdbc.model.NotificationEvent">
+    update notification_event
+    <set>
+      <if test="eventId != null">
+        EVENT_ID = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="globalId != null">
+        GLOBAL_ID = #{globalId,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null">
+        EVENT_TYPE = #{eventType,jdbcType=VARCHAR},
+      </if>
+      <if test="eventTopic != null">
+        EVENT_TOPIC = #{eventTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        TAGS = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="notificationBody != null">
+        NOTIFICATION_BODY = #{notificationBody,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sw.shardingjdbc.model.NotificationEvent">
+    update notification_event
+    set EVENT_ID = #{eventId,jdbcType=VARCHAR},
+      GLOBAL_ID = #{globalId,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=INTEGER},
+      `STATUS` = #{status,jdbcType=VARCHAR},
+      EVENT_TYPE = #{eventType,jdbcType=VARCHAR},
+      EVENT_TOPIC = #{eventTopic,jdbcType=VARCHAR},
+      TAGS = #{tags,jdbcType=VARCHAR},
+      NOTIFICATION_BODY = #{notificationBody,jdbcType=VARCHAR},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select *
+    from notification_event limit 10
+ </select>
+</mapper>
